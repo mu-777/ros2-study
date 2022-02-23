@@ -18,6 +18,7 @@ else
 fi
 
 cat << '_EOS_' > $HOME/.bashrc
+# /etc/profile works only in `bash -l`
 source /usr/share/bash-completion/bash_completion
 
 if [ "$color_prompt" = yes ]; then
