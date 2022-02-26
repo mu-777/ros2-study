@@ -1,12 +1,12 @@
 #!/bin/bash
 
-if [ -e $DISPLAY ]; then
+if [ -e $DISPLAY ]; then 
   echo "Not found DISPLAY envvar"
 else
   echo "You should run x11 server(with no RANDR) for GUI applications(rviz, rqt)"
 fi
 
-docker run --rm -itdz \
+docker run --rm -itd \
   -v /etc/group:/etc/group:ro \
   -v /etc/passwd:/etc/passwd:ro \
   -v /etc/shadow:/etc/shadow:ro \
