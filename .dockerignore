@@ -1,2 +1,5 @@
 ros2_docker
 .*
+build
+install
+log

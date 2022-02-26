@@ -2,3 +2,6 @@
 !.gitignore
 !.gitmodules
 !.dockerignore
+build
+install
+log
