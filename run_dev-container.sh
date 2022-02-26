@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ "$(uname -r)" == *microsoft* ]]; then
+  HOST_IP=`ipconfig.exe | grep IPv4 | grep -v 172 | cut -d: -f2 | awk '{ print $1}' | sed 's/\r//g'`
+  DISPLAY=${HOST_IP}:0.0
+fi
+
 if [ -e $DISPLAY ]; then 
   echo "Not found DISPLAY envvar"
 else
