@@ -2,6 +2,7 @@
 !.gitignore
 !.gitmodules
 !.dockerignore
+!.vscode
 build
 install
 log
