@@ -17,8 +17,8 @@ docker run --rm -itd \
   -v /etc/shadow:/etc/shadow:ro \
   -v $HOME/.vscode-server:$HOME/.vscode-server \
   -u $(id -u $USER):$(id -g $USER) \
-  -v ${PWD}:${PWD} \
-  -w ${PWD} \
+  -v ${PWD}:${HOME}/dev \
+  -w ${HOME}/dev \
   -e DISPLAY=${DISPLAY} \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   --name ros2-study-dev \
