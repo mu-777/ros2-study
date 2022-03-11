@@ -4,18 +4,33 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "ROS Build",
-      "detail": "Build workspace (default)",
+      "label": "ROS Build Setup",
       "type": "shell",
-      "command": "rosdep update; rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y; colcon build --symlink-install",
+      "command": "source /opt/ros/$ROS_DISTRO/setup.bash; rosdep update; rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y;",
+      "options": {
+        "cwd": "${workspaceRoot}"
+      }
+    },
+    {
+      "label": "ROS Build",
+      "type": "shell",
+      "command": "colcon build",
+      "options": {
+        "cwd": "${workspaceRoot}"
+      }
+    },
+    {
+      "label": "Build",
       "group": {
         "kind": "build",
         "isDefault": true
       },
-      "options": {
-        "cwd": "${workspaceRoot}"
-      },
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "ROS Build Setup",
+        "ROS Build"
+      ],
       "problemMatcher": []
-    },
+    }
   ]
 }
