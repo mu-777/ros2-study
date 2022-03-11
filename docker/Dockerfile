@@ -1,4 +1,5 @@
-FROM mu777/ros2:foxy_desktop
+FROM osrf/ros:foxy-desktop
+# FROM mu777/ros2:foxy_desktop
 
 RUN apt update && apt install -y --no-install-recommends \
     sudo gosu less bash-completion astyle \
@@ -9,8 +10,6 @@ RUN apt update && apt install -y --no-install-recommends \
 
 RUN pip3 install -U \
     argcomplete
-
-RUN rosdep init && rosdep update
 
 RUN echo ALL ALL=\(ALL:ALL\) NOPASSWD: ALL>> /etc/sudoers
 
