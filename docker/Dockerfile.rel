@@ -1,0 +1,53 @@
+ARG BUILD_IMG=ros:foxy-ros-base
+ARG RUNTIME_IMG=ros:foxy-ros-core
+
+ARG OVERLAY_WS=/opt/ros/overlay_ws
+
+# ====================================
+# multi-stage for caching
+FROM $BUILD_IMG as cacher
+ARG OVERLAY_WS
+
+# setup source
+WORKDIR $OVERLAY_WS/src
+COPY ./src ./
+
+# copy manifests for caching
+WORKDIR /opt
+RUN mkdir -p /tmp/opt && \
+    find ./ -name "package.xml" | \
+      xargs cp --parents -t /tmp/opt && \
+    find ./ -name "COLCON_IGNORE" | \
+      xargs cp --parents -t /tmp/opt || true
+
+
+# ====================================
+# multi-stage for building
+FROM $BUILD_IMG AS builder
+ARG OVERLAY_WS
+
+# install dependencies
+WORKDIR $OVERLAY_WS
+COPY --from=cacher /tmp/$OVERLAY_WS/src ./src
+RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
+    apt-get update && rosdep update && \
+    rosdep install -y \
+      --from-paths src \
+      --ignore-src \
+    && rm -rf /var/lib/apt/lists/*
+
+# build source
+COPY --from=cacher $OVERLAY_WS/src ./src
+ARG OVERLAY_MIXINS="release"
+RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
+    colcon build \
+      --mixin $OVERLAY_MIXINS
+
+# ====================================
+# multi-stage for packaging
+FROM $RUNTIME_IMG
+ARG OVERLAY_WS
+
+COPY --from=builder $OVERLAY_WS/install/*/lib /tmp/
+COPY --from=builder $OVERLAY_WS/install/*/lib /opt/ros/$ROS_DISTRO/lib/
+COPY --from=builder $OVERLAY_WS/install/*/share /opt/ros/$ROS_DISTRO/share/
