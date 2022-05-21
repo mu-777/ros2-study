@@ -6,7 +6,7 @@
     {
       "label": "ROS Build Setup",
       "type": "shell",
-      "command": "source /opt/ros/$ROS_DISTRO/setup.bash; rosdep update; rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y;",
+      "command": "source /opt/ros/$ROS_DISTRO/setup.bash; rosdep update; rosdep install -i --from-path ${workspaceRoot}/src --rosdistro $ROS_DISTRO -y;",
       "options": {
         "cwd": "${workspaceRoot}"
       }
