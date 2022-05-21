@@ -48,6 +48,5 @@ RUN . /opt/ros/$ROS_DISTRO/setup.sh && \
 FROM $RUNTIME_IMG
 ARG OVERLAY_WS
 
-COPY --from=builder $OVERLAY_WS/install/*/lib /tmp/
 COPY --from=builder $OVERLAY_WS/install/*/lib /opt/ros/$ROS_DISTRO/lib/
 COPY --from=builder $OVERLAY_WS/install/*/share /opt/ros/$ROS_DISTRO/share/
