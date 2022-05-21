@@ -3,6 +3,7 @@
 !.gitmodules
 !.dockerignore
 !.vscode
+!.env
 build
 install
 log

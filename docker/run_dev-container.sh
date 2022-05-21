@@ -1,5 +1,8 @@
 #!/bin/bash
 
+source $(dirname $0)/.env
+WS_NAME=`echo $(basename $(cd $(dirname $0)/../; pwd)) | sed -e 's/-/_/g'`
+
 if [[ "$(uname -r)" == *microsoft* ]]; then
   HOST_IP=`ipconfig.exe | grep IPv4 | grep -v 172 | cut -d: -f2 | awk '{ print $1}' | sed 's/\r//g'`
   DISPLAY=${HOST_IP}:0.0
@@ -21,5 +24,5 @@ docker run --rm -itd \
   -w ${PWD} \
   -e DISPLAY=${DISPLAY} \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
-  --name ros2-study-dev \
-  mu777/ros2:foxy_dev /bin/sh -c "while : ; do sleep 3; done"
+  --name $WS_NAME-dev \
+  $DOCKER_IMG:dev_$WS_NAME /bin/sh -c "while : ; do sleep 3; done"
