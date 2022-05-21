@@ -21,12 +21,6 @@ cat << '_EOS_' > $HOME/.bashrc
 # /etc/profile works only in `bash -l`
 source /usr/share/bash-completion/bash_completion
 
-if [ "$color_prompt" = yes ]; then
-  PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\[\033[01;32m\]ros2ctr:\[\033[01;34m\]\w\[\033[30m\]$(__git_ps1)\[\033[00m\] \$ '
-else
-  PS1='${debian_chroot:+($debian_chroot)}\u@ros2ctr:\w$(__git_ps1) \$ '
-fi
-
 source "/opt/ros/$ROS_DISTRO/setup.bash"
 _EOS_
 
